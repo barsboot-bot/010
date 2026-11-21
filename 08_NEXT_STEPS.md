@@ -25,7 +25,7 @@
    `docs/09_TEXTURES.md`, там же таблица форматов (DXT1/DXT5) и контактный лист.
    Пока этого не сделано, модели будут белыми.
 1. Импорт `Models/src/*.obj` → LOD'ы → материалы `.rvmat` (готовы,
-   `@MusicRadioCore/data/tex/*.rvmat`) → Save как `.p3d`
+   `@MusicRadioDB/data/tex/*.rvmat`) → Save как `.p3d`
    (`docs/07_MODELS.md`, чек-лист в п. 8).
 2. Положить `.p3d` в `@MusicRadioCore/data/`, в `config.cpp` заменить `model` у
    пяти классов (кассета, MD, плеер, дека, карта).

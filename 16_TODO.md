@@ -35,7 +35,7 @@ Windows, DayZ Tools и живого сервера — **не проверено
 
 | # | Что | Где | Состояние |
 |---|-----|-----|-----------|
-| 2.1 | 36 PNG → `.paa` (TexView 2) | `Models/tex_src/` → `@MusicRadioCore/data/tex/` | **не сделано**: `.paa` = 0 файлов, модели будут белыми |
+| 2.1 | 36 PNG → `.paa` (TexView 2) | `Models/tex_src/` → `@MusicRadioDB/data/tex/` | **не сделано**: `.paa` = 0 файлов, модели будут белыми |
 | 2.2 | 5 `.obj` → `.p3d` (Object Builder, LOD'ы) | `Models/src/`, чек-лист в `docs/07_MODELS.md`, п. 8 | **не сделано**: `model` у пяти классов пока ванильный (`BoxOfMatches`, `WalkieTalkie`, `sewing_kit`, `Compass`) |
 | 2.3 | Заменить `model` в `config.cpp` на свои `.p3d` | `@MusicRadioCore/config.cpp` | после 2.2 |
 | 2.4 | Ключ подписи `KRaTos.biprivatekey` | `release/keys/` (DSSignFile) | иначе PBO соберутся неподписанными, а сервер с `verifySign` их отклонит |

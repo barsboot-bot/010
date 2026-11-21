@@ -14,7 +14,7 @@
 | Статический чекер | `tools/check_project.py` | 0 ошибок, 0 предупреждений |
 | Носители (карта памяти / кассета / MD) | `config.cpp`, `MR_MediaItems.c`, `carriers.json` | готово, модели ванильные |
 | Меши носителей + чертежи | `Models/src/*.obj`, `Models/preview/*.svg` | готово, экспорт в .p3d — в Object Builder |
-| Текстуры носителей | `tools/make_textures.py` → `Models/tex_src/*.png`, `@MusicRadioCore/data/tex/*.rvmat` | готово: 10 материалов, 30 PNG, 10 rvmat; `.paa` — в TexView 2 (Windows), см. `docs/09_TEXTURES.md` |
+| Текстуры носителей | `tools/make_textures.py` → `Models/tex_src/*.png`, `@MusicRadioDB/data/tex/*.rvmat` | готово: 10 материалов, 30 PNG, 10 rvmat; `.paa` — в TexView 2 (Windows), см. `docs/09_TEXTURES.md` |
 | Слот на торпеде машины | `MR_DashSlot`, `MR_MediaItems.AlbumInVehicle()` | слот и логика готовы, 3D-отображение требует правки моделей машин |
 | Подготовка к PBO | `tools/stage_pbo.py` | работает: staging 3 модов, 46 файлов, 0 проблем |
 | Сборка PBO | `BUILD_PBO.bat` | скрипт готов: сам ищет DayZ Tools, окно не закрывается |

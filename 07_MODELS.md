@@ -68,7 +68,7 @@ Models/
 
 OBJ приходит с MTL: `plastic`, `metal`, `label`, `glass`, `screen`, `button`.
 В Object Builder это надо заменить на `.rvmat` (иначе модель будет белой).
-**Готовые `.rvmat` уже есть** — `@MusicRadioCore/data/tex/*.rvmat`, по одному на
+**Готовые `.rvmat` уже есть** — `@MusicRadioDB/data/tex/*.rvmat`, по одному на
 материал (`mr_cassette`, `mr_minidisc`, `mr_mdplayer`, `mr_cassettedeck`,
 `mr_memorycard`, плюс тайловые `mr_plastic`, `mr_plastic_light`, `mr_metal`,
 `mr_paper`, `mr_rubber`). Как они устроены и откуда взялись текстуры —
@@ -76,7 +76,7 @@ OBJ приходит с MTL: `plastic`, `metal`, `label`, `glass`, `screen`, `bu
 
 ```cpp
 // в .p3d текстура называется mr_cassette, а материал ссылается так:
-// MusicRadioCore\data\tex\mr_cassette.rvmat
+// MusicRadioDB\data\tex\mr_cassette.rvmat
 ```
 
 

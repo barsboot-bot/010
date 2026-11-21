@@ -138,7 +138,7 @@ class CfgVehicles
 		displayName = "Cassette - Demo Rock A (Placeholder Artist)";
 		descriptionShort = "Side A: Demo Rock A, ~7 min. Insert into a cassette player.";
 		hiddenSelections[] = { "mr_cassette" };
-		hiddenSelectionsMaterials[] = { "MusicRadioCore\data\tex\mr_cassette_rock01.rvmat" };
+		hiddenSelectionsMaterials[] = { "MusicRadioDB\data\tex\mr_cassette_rock01.rvmat" };
 		class CfgCassette
 		{
 			isPlaylist = 1;
@@ -156,7 +156,7 @@ class CfgVehicles
 		displayName = "MiniDisc - Demo Rock A (Placeholder Artist)";
 		descriptionShort = "Demo Rock A, ~7 min. Insert into an MD player.";
 		hiddenSelections[] = { "mr_minidisc" };
-		hiddenSelectionsMaterials[] = { "MusicRadioCore\data\tex\mr_minidisc_rock01.rvmat" };
+		hiddenSelectionsMaterials[] = { "MusicRadioDB\data\tex\mr_minidisc_rock01.rvmat" };
 		class CfgCassette
 		{
 			isPlaylist = 1;

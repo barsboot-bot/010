@@ -44,7 +44,7 @@ def stage(clean=False, do_zip=False, check_only=False):
         dst = STAGING / mod
         if dst.exists():
             shutil.rmtree(dst)
-        shutil.copytree(src, dst, ignore=shutil.ignore_patterns("__pycache__", "*.pyc", "Thumbs.db", "*~", "*.pbo", "*.bisign"))
+        shutil.copytree(src, dst, ignore=shutil.ignore_patterns("__pycache__", "*.pyc", "Thumbs.db", "*~", "*.pbo", "*.bisign", ".gitkeep"))
         # files.txt
         files = []
         for f in dst.rglob("*"):

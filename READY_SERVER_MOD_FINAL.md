@@ -65,6 +65,14 @@
 - `config_proxy_snippet.cpp` — прокси для торпеды (MR_DashSlot selection, ProxyMR_MemoryCard/DashPlayer/DashDeck)
 - `src/*.p3d.txt` — планы создания .p3d в Object Builder (07_MODELS.md): mr_cassette (100×63.8×12мм), mr_minidisc (72×68×4мм), mr_memorycard (32×24×2.1мм), mr_mdplayer (118×72×17мм), mr_cassettedeck (140×110×35мм)
 
+
+### Текстуры (перенесены из Core в DB)
+- Исходники PNG: `Models/tex_src/` (mr_cassette_*, mr_minidisc_*, mr_memorycard_*, mr_mdplayer_*, mr_cassettedeck_*, mr_plastic_*, mr_metal_* и т.д.) — в PBO не идут
+- Материалы `.rvmat` + бинарные `.paa`: `@MusicRadioDB/data/tex/` (идут в PBO @MusicRadioDB)
+- Связка: `hiddenSelectionsMaterials[] = { "MusicRadioDB\\data\\tex\\mr_cassette_rock01.rvmat" }` в `@MusicRadioDB/config.cpp`
+- Модели `.p3d` остаются в `@MusicRadioCore/data/` (mr_cassette.p3d, mr_minidisc.p3d и т.д.)
+- Контактный лист: `Models/preview/textures_sheet.png`
+
 ### tools/ (16 python-скриптов)
 - generate_db_config.py, stage_pbo.py, check_project.py, check_bat.py, check_fresh.py, make_single_md.py, import_music.py, make_textures.py, autobuild.py, check_db_config.py, check_pbo.py, check_log.py, doctors.py, update_tools.py, check_mdmp.py, build_carrier_cfgset.py
 

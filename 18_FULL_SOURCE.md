@@ -1,104 +1,8 @@
 # MusicRadio - ПОЛНЫЙ ИСХОДНЫЙ КОД В ОДНОМ ФАЙЛЕ
 
 Ревизия **20261175**. Файл собран автоматически: `python tools/make_single_md.py`.
-Не редактируйте его - правки делаются в настоящих файлах, потом пересобирается
-этот документ.
-
-## Что внутри
-
-| # | Раздел | Файлов |
-|---|--------|--------|
-| 1 | Core - config.cpp | 1 |
-| 2 | Core - 3_Game | 13 |
-| 3 | Core - 4_World | 9 |
-| 4 | Core - 5_Mission | 5 |
-| 5 | Core - интерфейс и локализация | 4 |
-| 6 | Server - config.cpp и скрипты | 4 |
-| 7 | DB - config.cpp (генерируется) | 1 |
-| 8 | DB - данные медиапака | 6 |
-| 9 | Файлы для сервера | 3 |
-| 10 | Справочник: прокси для торпеды (не подключается) | 1 |
-
-**Не включено осознанно:** папка `tools/` (python-инструменты, 35 файлов),
-ванильный `server_files/mpmissions/types.xml` (896 КБ - в него только
-добавляются 4 записи из `types_musicradio.xml`), медиа-файлы `.ogg`, текстуры
-`.png/.paa` и модели `.p3d` (бинарники).
-
-## Как этим пользоваться
-
-* Скрипты лежат в слоях `3_Game` → `4_World` → `5_Mission`; зависимости идут
-  только вниз, поэтому порядок в этом файле = порядок компиляции.
-* Свои классы объявляются в `config.cpp` (CfgVehicles) и в скриптах пишутся как
-  `class ... extends ...`; ванильные (`PersonalRadio`, `CarScript`,
-  `PlayerBase`) - только `modded class`.
-* `@MusicRadioDB/config.cpp` и блок `@@CARRIER_CLASSES@@` **генерируются**
-  скриптом - руками там ничего не правится.
 
 ---
-
-## Оглавление
-
-- [**1. Core - config.cpp**](#1-core-configcpp)
-  - [`@MusicRadioCore/config.cpp`](#musicradiocoreconfigcpp)
-- [**2. Core - 3_Game**](#2-core-3_game)
-  - [`@MusicRadioCore/Scripts/3_Game/MusicRadio/MR_Constants.c`](#musicradiocorescripts3_gamemusicradiomr_constantsc)
-  - [`@MusicRadioCore/Scripts/3_Game/MusicRadio/MR_Net.c`](#musicradiocorescripts3_gamemusicradiomr_netc)
-  - [`@MusicRadioCore/Scripts/3_Game/MusicRadio/MR_Json.c`](#musicradiocorescripts3_gamemusicradiomr_jsonc)
-  - [`@MusicRadioCore/Scripts/3_Game/MusicRadio/MR_Track.c`](#musicradiocorescripts3_gamemusicradiomr_trackc)
-  - [`@MusicRadioCore/Scripts/3_Game/MusicRadio/MR_Locator.c`](#musicradiocorescripts3_gamemusicradiomr_locatorc)
-  - [`@MusicRadioCore/Scripts/3_Game/MusicRadio/MR_MediaResolver.c`](#musicradiocorescripts3_gamemusicradiomr_mediaresolverc)
-  - [`@MusicRadioCore/Scripts/3_Game/MusicRadio/MR_Library.c`](#musicradiocorescripts3_gamemusicradiomr_libraryc)
-  - [`@MusicRadioCore/Scripts/3_Game/MusicRadio/MR_Config.c`](#musicradiocorescripts3_gamemusicradiomr_configc)
-  - [`@MusicRadioCore/Scripts/3_Game/MusicRadio/MR_AudioTypes.c`](#musicradiocorescripts3_gamemusicradiomr_audiotypesc)
-  - [`@MusicRadioCore/Scripts/3_Game/MusicRadio/MR_DeviceBase.c`](#musicradiocorescripts3_gamemusicradiomr_devicebasec)
-  - [`@MusicRadioCore/Scripts/3_Game/MusicRadio/MR_ClientAudio.c`](#musicradiocorescripts3_gamemusicradiomr_clientaudioc)
-  - [`@MusicRadioCore/Scripts/3_Game/MusicRadio/MR_CarrierState.c`](#musicradiocorescripts3_gamemusicradiomr_carrierstatec)
-  - [`@MusicRadioCore/Scripts/3_Game/MusicRadio/MR_SoundMix.c`](#musicradiocorescripts3_gamemusicradiomr_soundmixc)
-- [**3. Core - 4_World**](#3-core-4_world)
-  - [`@MusicRadioCore/Scripts/4_World/MusicRadio/MR_Carriers.c`](#musicradiocorescripts4_worldmusicradiomr_carriersc)
-  - [`@MusicRadioCore/Scripts/4_World/MusicRadio/MR_Decks.c`](#musicradiocorescripts4_worldmusicradiomr_decksc)
-  - [`@MusicRadioCore/Scripts/4_World/MusicRadio/MR_DeckResume.c`](#musicradiocorescripts4_worldmusicradiomr_deckresumec)
-  - [`@MusicRadioCore/Scripts/4_World/MusicRadio/MR_MediaItems.c`](#musicradiocorescripts4_worldmusicradiomr_mediaitemsc)
-  - [`@MusicRadioCore/Scripts/4_World/MusicRadio/MR_Hosts.c`](#musicradiocorescripts4_worldmusicradiomr_hostsc)
-  - [`@MusicRadioCore/Scripts/4_World/MusicRadio/MR_Registry.c`](#musicradiocorescripts4_worldmusicradiomr_registryc)
-  - [`@MusicRadioCore/Scripts/4_World/MusicRadio/MR_WorldHooks.c`](#musicradiocorescripts4_worldmusicradiomr_worldhooksc)
-  - [`@MusicRadioCore/Scripts/4_World/MusicRadio/MR_PlayerRPC.c`](#musicradiocorescripts4_worldmusicradiomr_playerrpcc)
-  - [`@MusicRadioCore/Scripts/4_World/MusicRadio/MR_Animations.c`](#musicradiocorescripts4_worldmusicradiomr_animationsc)
-- [**4. Core - 5_Mission**](#4-core-5_mission)
-  - [`@MusicRadioCore/Scripts/5_Mission/MusicRadio/MR_ClientRPC.c`](#musicradiocorescripts5_missionmusicradiomr_clientrpcc)
-  - [`@MusicRadioCore/Scripts/5_Mission/MusicRadio/MR_ClientState.c`](#musicradiocorescripts5_missionmusicradiomr_clientstatec)
-  - [`@MusicRadioCore/Scripts/5_Mission/MusicRadio/MR_LibraryIndex.c`](#musicradiocorescripts5_missionmusicradiomr_libraryindexc)
-  - [`@MusicRadioCore/Scripts/5_Mission/MusicRadio/MR_RadioMenu.c`](#musicradiocorescripts5_missionmusicradiomr_radiomenuc)
-  - [`@MusicRadioCore/Scripts/5_Mission/MusicRadio/MR_GameHooks.c`](#musicradiocorescripts5_missionmusicradiomr_gamehooksc)
-- [**5. Core - интерфейс и локализация**](#5-core-интерфейс-и-локализация)
-  - [`@MusicRadioCore/gui/layouts/radio_ui.layout`](#musicradiocoreguilayoutsradio_uilayout)
-  - [`@MusicRadioCore/gui/layouts/radio_row.layout`](#musicradiocoreguilayoutsradio_rowlayout)
-  - [`@MusicRadioCore/inputs.xml`](#musicradiocoreinputsxml)
-  - [`@MusicRadioCore/stringtable.csv`](#musicradiocorestringtablecsv)
-- [**6. Server - config.cpp и скрипты**](#6-server-configcpp-и-скрипты)
-  - [`@MusicRadioServer/config.cpp`](#musicradioserverconfigcpp)
-  - [`@MusicRadioServer/Scripts/4_World/MusicRadio/MR_ServerEngine.c`](#musicradioserverscripts4_worldmusicradiomr_serverenginec)
-  - [`@MusicRadioServer/Scripts/4_World/MusicRadio/MR_ServerHooks.c`](#musicradioserverscripts4_worldmusicradiomr_serverhooksc)
-  - [`@MusicRadioServer/Scripts/5_Mission/MusicRadio/MR_ServerMission.c`](#musicradioserverscripts5_missionmusicradiomr_servermissionc)
-- [**7. DB - config.cpp (генерируется)**](#7-db-configcpp-генерируется)
-  - [`@MusicRadioDB/config.cpp`](#musicradiodbconfigcpp)
-- [**8. DB - данные медиапака**](#8-db-данные-медиапака)
-  - [`@MusicRadioDB/Music/index.json`](#musicradiodbmusicindexjson)
-  - [`@MusicRadioDB/Music/carriers.json`](#musicradiodbmusiccarriersjson)
-  - [`@MusicRadioDB/Music/DatabaseConfig.json`](#musicradiodbmusicdatabaseconfigjson)
-  - [`@MusicRadioDB/Music/Rock/demo_playlist.json`](#musicradiodbmusicrockdemo_playlistjson)
-  - [`@MusicRadioDB/CREDITS.txt`](#musicradiodbcreditstxt)
-  - [`@MusicRadioDB/Scripts/4_World/MR_DB_Placeholder.c`](#musicradiodbscripts4_worldmr_db_placeholderc)
-- [**9. Файлы для сервера**](#9-файлы-для-сервера)
-  - [`server_files/profiles/MusicRadio/AudioConfig.json`](#server_filesprofilesmusicradioaudioconfigjson)
-  - [`server_files/mpmissions/types_musicradio.xml`](#server_filesmpmissionstypes_musicradioxml)
-  - [`server_files/mpmissions/cfgspawnabletypes.xml`](#server_filesmpmissionscfgspawnabletypesxml)
-- [**10. Справочник: прокси для торпеды (не подключается)**](#10-справочник-прокси-для-торпеды-не-подключается)
-  - [`Models/config_proxy_snippet.cpp`](#modelsconfig_proxy_snippetcpp)
-
----
-
-## 1. Core - config.cpp
 
 ### @MusicRadioCore/config.cpp
 
@@ -570,8 +474,6 @@ class CfgSlots
 //      MR_MediaItems.IsCarDockItem). Проверяется это в check_project.py.
 // =============================================================================
 ```
-
-## 2. Core - 3_Game
 
 ### @MusicRadioCore/Scripts/3_Game/MusicRadio/MR_Constants.c
 
@@ -2015,7 +1917,7 @@ class MR_Locator
 
 ### @MusicRadioCore/Scripts/3_Game/MusicRadio/MR_MediaResolver.c
 
-`@MusicRadioCore/Scripts/3_Game/MusicRadio/MR_MediaResolver.c` - 138 строк, 4223 байт.
+`@MusicRadioCore/Scripts/3_Game/MusicRadio/MR_MediaResolver.c` - 137 строк, 4222 байт.
 
 ```cpp
 // ============================================================================
@@ -3875,8 +3777,6 @@ modded class EffectSound
 }
 ```
 
-## 3. Core - 4_World
-
 ### @MusicRadioCore/Scripts/4_World/MusicRadio/MR_Carriers.c
 
 `@MusicRadioCore/Scripts/4_World/MusicRadio/MR_Carriers.c` - 206 строк, 6697 байт.
@@ -4482,7 +4382,7 @@ class MR_MiniDiscPlayer extends MR_MiniDiscPlayer_Base
 
 ### @MusicRadioCore/Scripts/4_World/MusicRadio/MR_DeckResume.c
 
-`@MusicRadioCore/Scripts/4_World/MusicRadio/MR_DeckResume.c` - 367 строк, 10509 байт.
+`@MusicRadioCore/Scripts/4_World/MusicRadio/MR_DeckResume.c` - 366 строк, 10508 байт.
 
 ```cpp
 // ============================================================================
@@ -5963,8 +5863,6 @@ modded class ModItemRegisterCallbacks
 }
 ```
 
-## 4. Core - 5_Mission
-
 ### @MusicRadioCore/Scripts/5_Mission/MusicRadio/MR_ClientRPC.c
 
 `@MusicRadioCore/Scripts/5_Mission/MusicRadio/MR_ClientRPC.c` - 376 строк, 10879 байт.
@@ -7286,8 +7184,6 @@ modded class MissionGameplay
 }
 ```
 
-## 5. Core - интерфейс и локализация
-
 ### @MusicRadioCore/gui/layouts/radio_ui.layout
 
 `@MusicRadioCore/gui/layouts/radio_ui.layout` - 273 строк, 5601 байт.
@@ -7711,8 +7607,6 @@ STR_MR_TogglePlayer,Open music player,Open music player,Otevřít přehrávač,P
 STR_MR_Slot_Dash,Cassette slot,Cassette slot,Czech,German,Слот для кассеты,Polish,,,Spanish,French,,,,
 STR_MR_Attach_Music,Music media,Music media,Czech,German,Музыка,Polish,,,Spanish,French,,,,
 ```
-
-## 6. Server - config.cpp и скрипты
 
 ### @MusicRadioServer/config.cpp
 
@@ -9053,11 +8947,9 @@ modded class MissionServer
 // ---------------------------------------------------------------------------
 ```
 
-## 7. DB - config.cpp (генерируется)
-
 ### @MusicRadioDB/config.cpp
 
-`@MusicRadioDB/config.cpp` - 172 строк, 5507 байт.
+`@MusicRadioDB/config.cpp` - 172 строк, 5503 байт.
 
 ```cpp
 // =============================================================================
@@ -9200,7 +9092,7 @@ class CfgVehicles
 		displayName = "Cassette - Demo Rock A (Placeholder Artist)";
 		descriptionShort = "Side A: Demo Rock A, ~7 min. Insert into a cassette player.";
 		hiddenSelections[] = { "mr_cassette" };
-		hiddenSelectionsMaterials[] = { "MusicRadioCore\data\tex\mr_cassette_rock01.rvmat" };
+		hiddenSelectionsMaterials[] = { "MusicRadioDB\data\tex\mr_cassette_rock01.rvmat" };
 		class CfgCassette
 		{
 			isPlaylist = 1;
@@ -9218,7 +9110,7 @@ class CfgVehicles
 		displayName = "MiniDisc - Demo Rock A (Placeholder Artist)";
 		descriptionShort = "Demo Rock A, ~7 min. Insert into an MD player.";
 		hiddenSelections[] = { "mr_minidisc" };
-		hiddenSelectionsMaterials[] = { "MusicRadioCore\data\tex\mr_minidisc_rock01.rvmat" };
+		hiddenSelectionsMaterials[] = { "MusicRadioDB\data\tex\mr_minidisc_rock01.rvmat" };
 		class CfgCassette
 		{
 			isPlaylist = 1;
@@ -9233,11 +9125,9 @@ class CfgVehicles
 };
 ```
 
-## 8. DB - данные медиапака
-
 ### @MusicRadioDB/Music/index.json
 
-`@MusicRadioDB/Music/index.json` - 48 строк, 1096 байт.
+`@MusicRadioDB/Music/index.json` - 49 строк, 1097 байт.
 
 ```json
 {
@@ -9292,7 +9182,7 @@ class CfgVehicles
 
 ### @MusicRadioDB/Music/carriers.json
 
-`@MusicRadioDB/Music/carriers.json` - 18 строк, 430 байт.
+`@MusicRadioDB/Music/carriers.json` - 19 строк, 431 байт.
 
 ```json
 {
@@ -9454,8 +9344,6 @@ class MR_DB_Info
 	}
 }
 ```
-
-## 9. Файлы для сервера
 
 ### server_files/profiles/MusicRadio/AudioConfig.json
 
@@ -9661,8 +9549,6 @@ class MR_DB_Info
 </cfgspawnabletypes>
 ```
 
-## 10. Справочник: прокси для торпеды (не подключается)
-
 ### Models/config_proxy_snippet.cpp
 
 `Models/config_proxy_snippet.cpp` - 85 строк, 2636 байт.
@@ -9753,10 +9639,3 @@ class CfgVehicles
 };
 */
 ```
-
----
-
-## Конец файла
-
-Файлов: 47. Символов кода: ~274 КБ. Ревизия 20261175.
-Проверить целостность: `python tools/make_single_md.py --check`

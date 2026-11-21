@@ -31,7 +31,7 @@ Models/tex_src/                 # ИСХОДНИКИ (PNG), в PBO не попа
 ├── mr_metal_*                   # 256x256  шлифованный металл
 ├── mr_paper_*                   # 256x256  бумага этикетки
 └── mr_rubber_*                  # 256x256  резина / кнопки
-@MusicRadioCore/data/tex/       # МАТЕРИАЛЫ МОДА (идут в PBO)
+@MusicRadioDB/data/tex/       # МАТЕРИАЛЫ МОДА (идут в PBO)
 └── *.rvmat  (10 штук)          # ссылки на *.paa, см. раздел 4
 Models/preview/textures_sheet.png  # контактный лист для быстрой проверки глазами
 ```
@@ -40,7 +40,7 @@ Models/preview/textures_sheet.png  # контактный лист для быс
 близко к тому, что всё равно даст DXT-сжатие в `.paa`, и держит папку в 1.8 МБ
 вместо 8.8 МБ. **В PBO PNG не кладём**: движок их не читает, а вес растёт.
 
-> `.rvmat` уже лежат в `@MusicRadioCore/data/tex/` и попадут в PBO при
+> `.rvmat` уже лежат в `@MusicRadioDB/data/tex/` и попадут в PBO при
 > `tools/stage_pbo.py`. Пока рядом нет `.paa`, движок нарисует модель белой —
 > это нормально до шага 3.
 
@@ -84,7 +84,7 @@ python tools/make_textures.py --albums --dry-run   # показать, ниче�
 ```
 
 Сгенерированные PNG лежат в `Models/tex_src/` (в PBO не идут), `.rvmat` — в
-`@MusicRadioCore/data/tex/` и попадают в пак. Дальше — та же конвертация в
+`@MusicRadioDB/data/tex/` и попадают в пак. Дальше — та же конвертация в
 TexView 2, что и для остальных текстур.
 
 ## 3. Что нарисовано (5 носителей)
@@ -120,13 +120,13 @@ DayZ (как и Arma 3) использует схему `_co` / `_nohq` / `_smdi
 
 ## 5. `.rvmat`: как материал связывает карты
 
-На каждый материал есть `.rvmat` в `@MusicRadioCore/data/tex/`, например
+На каждый материал есть `.rvmat` в `@MusicRadioDB/data/tex/`, например
 `mr_cassette.rvmat`. Он ссылается на `.paa` **по пути внутри PBO**:
 
 ```cpp
-class Stage1 { texture = "MusicRadioCore\data\tex\mr_cassette_nohq.paa"; ... }; // нормали
-class Stage2 { texture = "MusicRadioCore\data\tex\mr_cassette_co.paa";   ... }; // цвет
-class Stage4 { texture = "MusicRadioCore\data\tex\mr_cassette_smdi.paa"; ... }; // блики
+class Stage1 { texture = "MusicRadioDB\data\tex\mr_cassette_nohq.paa"; ... }; // нормали
+class Stage2 { texture = "MusicRadioDB\data\tex\mr_cassette_co.paa";   ... }; // цвет
+class Stage4 { texture = "MusicRadioDB\data\tex\mr_cassette_smdi.paa"; ... }; // блики
 specularPower = 30;
 ```
 
@@ -143,7 +143,7 @@ class Textures
         // в .p3d: Texture name = "mr_cassette", а не путь к .paa
         // путь задаётся здесь:
         // selection = "mr_cassette";
-        // material  = "MusicRadioCore\data\tex\mr_cassette.rvmat";
+        // material  = "MusicRadioDB\data\tex\mr_cassette.rvmat";
     };
 };
 ```
@@ -167,7 +167,7 @@ class Textures
 2. Откройте папку проекта, в ней — `Models\tex_src\`. Там лежат PNG:
    по три карты на каждый материал (`_co`, `_nohq`, `_smdi`).
 3. Убедитесь, что папка назначения существует:
-   `@MusicRadioCore\data\tex\` (в ней уже лежат `.rvmat`).
+   `@MusicRadioDB\data\tex\` (в ней уже лежат `.rvmat`).
 
 ### 6.2. Если TexView 2 пишет «Error loading file»
 
@@ -214,7 +214,7 @@ PNG не открывает. Сейчас все PNG — обычные **24-б�
 4. `File → Save As…`:
    * **Тип файла**: `PaC (DirectX)` — это и есть `.paa`;
    * **Имя**: `mr_cassette_co.paa` (суффикс `_co` сохраняем!);
-   * **Папка**: `…\@MusicRadioCore\data\tex\`.
+   * **Папка**: `…\@MusicRadioDB\data\tex\`.
 5. В диалоге сжатия:
 
    | Что конвертируем | Формат | Почему |
@@ -245,7 +245,7 @@ PNG не открывает. Сейчас все PNG — обычные **24-б�
 файле, прежде чем гнать пачкой):
 
 ```bat
-for %F in (Models\tex_src\*_co.png) do TexView2.exe -i "%F" -o "@MusicRadioCore\data\tex\%~nF.paa"
+for %F in (Models\tex_src\*_co.png) do TexView2.exe -i "%F" -o "@MusicRadioDB\data\tex\%~nF.paa"
 ```
 
 **C. Руками**, как в 6.2 — 36 раз. Дольше, но надёжнее всего, если версия
@@ -253,7 +253,7 @@ Tools нестандартная.
 
 ### 6.5. Проверка после конвертации
 
-В `@MusicRadioCore\data\tex\` должно быть:
+В `@MusicRadioDB\data\tex\` должно быть:
 
 * **36 файлов `.paa`** — ровно столько же, сколько PNG в `Models\tex_src\`;
 * **12 файлов `.rvmat`**;
@@ -262,7 +262,7 @@ Tools нестандартная.
 Быстрая проверка из консоли проекта:
 
 ```bat
-dir /b @MusicRadioCore\data\tex\*.paa | find /c ".paa"
+dir /b @MusicRadioDB\data\tex\*.paa | find /c ".paa"
 python tools\check_project.py
 ```
 
@@ -272,7 +272,7 @@ python tools\check_project.py
 
 Три уровня, все три уже готовы:
 
-**1. Материал (`*.rvmat`)** — `@MusicRadioCore/data/tex/<материал>.rvmat`, по
+**1. Материал (`*.rvmat`)** — `@MusicRadioDB/data/tex/<материал>.rvmat`, по
 одному на каждый материал: `mr_cassette_<albumId>`, `mr_minidisc_<albumId>`,
 `mr_plastic`, `mr_metal`, `mr_paper`… Внутри — ссылки на `_nohq`, `_co`, `_smdi`.
 
@@ -286,7 +286,7 @@ class MR_Cassette_Kostya : MR_CassetteCase_Base
     displayName = "Cassette - Kostya (Костя)";
     descriptionShort = "Side A: Kostya, ~340 min. Insert into a cassette player.";
     hiddenSelections[] = { "mr_cassette" };
-    hiddenSelectionsMaterials[] = { "MusicRadioCore\\data\\tex\\mr_cassette_kostya.rvmat" };
+    hiddenSelectionsMaterials[] = { "MusicRadioDB\\data\\tex\\mr_cassette_kostya.rvmat" };
 };
 ```
 
@@ -302,7 +302,7 @@ class MR_Cassette_Kostya : MR_CassetteCase_Base
 
 **3. Модель (`.p3d`)** — то, что нужно сделать в Object Builder:
 селекшен `mr_cassette` (грани корпуса и этикетки) и на нём материал
-`MusicRadioCore\\data\\tex\\mr_cassette_<albumId>.rvmat`. Подробный порядок —
+`MusicRadioDB\\data\\tex\\mr_cassette_<albumId>.rvmat`. Подробный порядок —
 `docs/07_MODELS.md`, раздел 4.
 
 ### 7.1. Слоты и иконки
@@ -321,14 +321,14 @@ class MR_Cassette_Kostya : MR_CassetteCase_Base
 - [x] текстуры нарисованы: `python tools/make_textures.py`
 - [x] обложки альбомов: `python tools/make_textures.py --albums`
 - [x] 36 PNG в `Models/tex_src/` + контактный лист `Models/preview/textures_sheet.png`
-- [x] 12 `.rvmat` в `@MusicRadioCore/data/tex/`
+- [x] 12 `.rvmat` в `@MusicRadioDB/data/tex/`
 - [x] PNG не попадают в PBO (staging берёт только `.rvmat`)
 - [x] `hiddenSelections[]` / `hiddenSelectionsMaterials[]` в конфиге альбомных классов
 
 Windows (единственное, что нельзя автоматизировать):
 
 - [ ] 36 PNG сконвертированы в `.paa` (DXT1 для `_co`/`_smdi`, DXT5 для `_nohq`)
-- [ ] в `@MusicRadioCore/data/tex/` нет `.png`
+- [ ] в `@MusicRadioDB/data/tex/` нет `.png`
 - [ ] модели `*.p3d` собраны в Object Builder, селекшен назван `mr_cassette` / `mr_minidisc`
 - [ ] в `config.cpp` у базовых классов `model` заменён на свой `.p3d`
 - [ ] `python tools\stage_pbo.py --clean --zip`, затем `BUILD_PBO.bat`
