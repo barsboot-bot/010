@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<!--
+    MusicRadio - Core
+    inputs.xml : three actions, one tab in the settings, no vanilla conflicts.
+
+    Registered from CfgMods -> defs -> inputs (see config.cpp). Nothing in the
+    vanilla input files is patched, so two mods using this file never fight.
+
+    DEFAULT KEYS
+    ------------
+        kRight / kLeft  -> next / previous track   (free in vanilla)
+        kB              -> open the player menu    (free in vanilla)
+
+    Deliberately NOT used: kJ (map) and kM (journal). All three reference mods
+    - FoXyRadio, OMD_CarRadio and VOS_Radio - shipped "kJ" as their default and
+    all three broke the map key for players who installed two of them.
+-->
+<modded_inputs>
+	<inputs>
+		<actions>
+			<input name="MRNextTrack"     loc="#STR_MR_NextTrack"     />
+			<input name="MRPreviousTrack" loc="#STR_MR_PreviousTrack" />
+			<input name="MRTogglePlayer"  loc="#STR_MR_TogglePlayer"  />
+		</actions>
+		<sorting name="MusicRadio" loc="MusicRadio">
+			<input name="MRNextTrack"/>
+			<input name="MRPreviousTrack"/>
+			<input name="MRTogglePlayer"/>
+		</sorting>
+	</inputs>
+	<preset>
+		<input name="MRNextTrack">
+			<btn name="kRight"/>
+		</input>
+		<input name="MRPreviousTrack">
+			<btn name="kLeft"/>
+		</input>
+		<input name="MRTogglePlayer">
+			<btn name="kB"/>
+		</input>
+	</preset>
+</modded_inputs>

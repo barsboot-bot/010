@@ -1,0 +1,53 @@
+{
+  // ===========================================================================
+  //  MusicRadio - server configuration
+  //  Path on the server:  mpmissions/<your_map>/MusicRadio/AudioConfig.json
+  //  (the mod writes a copy of this file there on first start)
+  //
+  //  Comments and trailing commas are allowed, the parser tolerates them.
+  // ===========================================================================
+
+  "general": {
+    // volume is 0..10 for players, 10 = 100%
+    "defaultVolume": 6,
+    // how far the music carries, meters
+    "defaultRadius": 40,
+    "maxVolume": 10,
+    "maxRadius": 80,
+    // allow tracks flagged "explicit": true in the media database
+    "allowExplicit": false
+  },
+
+  "features": {
+    // music in cars/trucks/helicopters
+    "vehicleRadio": true,
+    // handheld radio item (PersonalRadio) can play music too
+    "handheldRadio": true,
+    // a radio item must physically be in the vehicle cargo
+    "requireRadioItemInCargo": true,
+    // local .ogg tracks from the media pack
+    "localTracks": true,
+    // other players nearby hear the music; false = headphones mode (only you)
+    "broadcastToOthers": true,
+    // handheld radio transmits on the same frequency to nearby radios
+    "radioTransmission": true,
+    // when a track ends, play a random next one from the same category
+    "autoplayNext": true,
+    // 20261174: handheld radio is a real player - it needs a cassette/disc
+    // inserted and a memory card, exactly like a deck. false = old behaviour
+    // ("radio plays anything from the pack, no carrier needed")
+    "radioNeedsCarrier": true
+  },
+
+  "limits": {
+    // seconds between two play requests from the same player
+    "cooldownSeconds": 3,
+    // write every request into MusicRadio.log
+    "logRequests": true
+  },
+
+  "database": {
+    // index written by tools/generate_db_config.py, inside the DB mod
+    "index": "MusicRadioDB/Music/index.json"
+  }
+}

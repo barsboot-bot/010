@@ -1,0 +1,22 @@
+{
+  // ===========================================================================
+  //  MusicRadio - media library configuration (server + client)
+  //  Path inside the DB mod:  @MusicRadioDB/Music/DatabaseConfig.json
+  //
+  //  This file is OPTIONAL. It only declares things the game needs to know
+  //  before it can read index.json (e.g. a second media pack).
+  // ===========================================================================
+
+  "provider": "MusicRadioDB",
+  "version": 1,
+
+  // Extra providers: if you run two media packs (e.g. a "core" pack and a
+  // seasonal one), list them here. Each must ship its own index and soundsets.
+  "providers": [
+    "MusicRadioDB"
+  ],
+
+  // Reserved for future per-pack settings (e.g. a second provider listed in
+  // "providers" above). Keep this file even if empty: the loader expects it.
+  "notes": "media pack only, no streaming"
+}

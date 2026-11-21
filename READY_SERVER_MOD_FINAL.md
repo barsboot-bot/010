@@ -1,184 +1,117 @@
 # Готовый мод MusicRadio для сервера DayZ (Версия 1.30+)
 ## Музыка в машине (кассеты) + Персональная рация (MD Диски / SD Карты) + Патч машин и раций
 
-**Создано по инструкциям из файлов 01–17 (версия 2026-11-21).**
+**Ревизия 20261175. Полный исходный код из 18_FULL_SOURCE.md распакован в реальные файлы.**
 
 ---
 
-## 1. Структура мода (согласно 17_HOW_IT_WAS_BUILT.md и 02_ARCHITECTURE.md)
+## Что внутри (47 файлов из 18_FULL_SOURCE.md)
 
-```
-MusicRadio_Server_Package/
-├── @MusicRadioCore/              # Логика, UI, патч машин/раций (Версия 1.30+)
-│   ├── Scripts/
-│   │   ├── 3_Game/
-│   │   │   ├── MR.c                 // Основная логика (пример из 17_HOW_IT_WAS_BUILT.md)
-│   │   │   ├── MR_Locator.c
-│   │   │   ├── MR_Json.c
-│   │   │   ├── MR_Track.c
-│   │   │   ├── MR_Library.c
-│   │   │   ├── MR_Net.c
-│   │   │   ├── MR_MediaResolver.c
-│   │   │   ├── MR_DeviceBase.c
-│   │   │   └── MR_AudioTypes.c
-│   │   ├── 4_World/
-│   │   │   ├── MR_Registry.c
-│   │   │   ├── MR_Hosts.c
-│   │   │   ├── CarScript_modded.c    // ПАТЧ МАШИН (версия 1.30+)
-│   │   │   ├── PersonalRadio_modded.c // ПАТЧ РАЦИИ (версия 1.30+)
-│   │   │   └── PlayerBase_modded.c
-│   │   └── 5_Mission/
-│   │       ├── MR_ClientRPC.c
-│   │       ├── MR_RadioMenu.c
-│   │       └── MR_GameHooks.c
-│   ├── config.cpp           // CfgPatches, CfgMods, патч слотов (пример из 17_HOW_IT_WAS_BUILT.md и 13_CHECK_BUILD.md)
-│   └── data/
-│       └── tex/             // .rvmat (пример из 07_MODELS.md)
-├── @MusicRadioDB/           # Музыка (.ogg) + Контент (кассеты, MD, SD)
-│   ├── Music/               // .ogg (пример из 03_MEDIA_PACK.md)
-│   ├── Scripts/
-│   │   └── 4_World/
-│   └── config.cpp           // CfgSoundSets, классы кассет/дисков (пример из 17_HOW_IT_WAS_BUILT.md)
-├── @MusicRadioServer/       # Права, лимиты, аудит (только сервер)
-│   ├── Scripts/
-│   │   ├── 4_World/
-│   │   └── 5_Mission/
-│   │       ├── MR_ServerEngine.c
-│   │       ├── MR_RPC.c
-│   │       └── MR_Limits.c
-│   └── config.cpp           // серверный мод (пример из 17_HOW_IT_WAS_BUILT.md)
-├── tools/                   # Python-скрипты (пример из 17_HOW_IT_WAS_BUILT.md)
-│   ├── generate_db_config.py
-│   ├── stage_pbo.py
-│   ├── check_project.py
-│   ├── check_bat.py
-│   ├── check_fresh.py
-│   ├── make_textures.py
-│   ├── import_music.py
-│   ├── update_tools.py
-│   └── autobuild.py
-├── server_files/            # types.xml, cfgspawnabletypes, AudioConfig.json (пример из 17_HOW_IT_WAS_BUILT.md)
-│   ├── types.xml
-│   ├── cfgspawnabletypes.xml
-│   └── AudioConfig.json     // пример из 01_INSTALL.md
-├── docs/                    # Документация (01-17)
-│   ├── 01_INSTALL.md
-│   ├── 02_ARCHITECTURE.md
-│   ├── 03_MEDIA_PACK.md
-│   ├── 04_STATUS.md
-│   ├── 05_PBO_BUILD.md
-│   ├── 06_CARRIERS.md
-│   ├── 07_MODELS.md
-│   ├── 08_NEXT_STEPS.md
-│   ├── 09_TEXTURES.md
-│   ├── 10_LIMITS.md
-│   ├── 11_TROUBLESHOOTING.md
-│   ├── 12_CHANGES_VOS.md
-│   ├── 13_CHECK_BUILD.md
-│   ├── 14_BAT_FILES.md
-│   ├── 15_TEST_IN_GAME.md
-│   ├── 16_TODO.md
-│   └── 17_HOW_IT_WAS_BUILT.md
-├── Models/                  # .obj, tex_src/*.png, .rvmat (пример из 07_MODELS.md)
-│   ├── src/
-│   │   ├── mr_cassette.obj
-│   │   ├── mr_minidisc.obj
-│   │   ├── mr_mdplayer.obj
-│   │   ├── mr_cassettedeck.obj
-│   │   └── mr_memorycard.obj
-│   ├── preview/
-│   ├── tex_src/
-│   └── README.md
-└── *.bat                    // AUTO_BUILD, BUILD_PBO, DEPLOY, CHECK, EXPLAIN_STALE, IMPORT_MUSIC, REBUILD (пример из 14_BAT_FILES.md)
+### @MusicRadioCore (логика, UI, патч машин/раций)
+- `config.cpp` (464 строки) — CfgPatches, CfgMods, CfgSlots (MR_DashSlot, MR_MemoryCard, MR_Cassette, MR_MiniDisc), классы MR_MemoryCard_Base, MR_CassetteCase_Base, MR_MiniDisc_Base, MR_CassettePlayer, MR_MiniDiscPlayer, PersonalRadio (слоты MR_MemoryCard/MR_Cassette/MR_MiniDisc)
+- `Scripts/3_Game/MusicRadio/` (13 файлов):
+  - MR_Constants.c — константы, RPC id 784100+, helper'ы (StartsWith, NetId, VolumeStepToGain)
+  - MR_Net.c — wire format (MR_Request, MR_Net.EncodePlay/DecodePlay, EncodeStop, EncodeVolume)
+  - MR_Json.c — tolerant JSON parser (комментарии, trailing commas, single quotes)
+  - MR_Track.c — трек (id, provider, albumId, file, soundset)
+  - MR_Locator.c — LCT|1|provider|trackId|volume|seed
+  - MR_MediaResolver.c — provider+trackId -> MR_<PROVIDER>_<ID>_SoundSet
+  - MR_Library.c — библиотека треков, ByAlbum, Search, SerializeManifest
+  - MR_Config.c — AudioConfig.json чтение/запись, MR_AuditLog
+  - MR_AudioTypes.c — MR_Settings, MR_PlayRequest, MR_Session
+  - MR_DeviceBase.c — базовый хост (MR_AudioStart, MR_AudioApplyVolume, MR_SetState)
+  - MR_ClientAudio.c — реестр audible hosts, Tick, ReportEnded
+  - MR_CarrierState.c — память кассеты (MRT1|marker|trackId|position|trackNo), CfgCassette
+  - MR_SoundMix.c — modded EffectSound (MR_SetVolumeMax, MR_SetStartOffset)
+- `Scripts/4_World/MusicRadio/` (9 файлов):
+  - MR_Carriers.c — MR_CarrierBase (OnStoreSave/Load), MR_CassetteCase_Base, MR_MiniDisc_Base, MR_MemoryCard_Base
+  - MR_Decks.c — MR_MediaBay (единый контракт: носитель -> карта -> батарейка), MR_CassettePlayer_Base, MR_MiniDiscPlayer_Base
+  - MR_DeckResume.c — resume логика деки
+  - MR_MediaItems.c — AlbumOf, IsCarrierPlayer, AlbumInVehicle, DockedInVehicle
+  - MR_Hosts.c — MR_ItemHost, MR_VehicleHost (MR_CanPlay, MR_BlockReason)
+  - MR_Registry.c — реестр хостов по network id, MR_VehicleRadio (HasRadioInCargo, HasPower)
+  - MR_WorldHooks.c — modded PersonalRadio, CarScript, PlayerBase (MR_FindUsableHost)
+  - MR_PlayerRPC.c — modded PlayerBase.OnRPC (клиентский мост в 5_Mission)
+  - MR_Animations.c — modded ModItemRegisterCallbacks (IK профили для плееров)
+- `Scripts/5_Mission/MusicRadio/` (5 файлов):
+  - MR_ClientRPC.c — SendRequest, HandlePlay/Stop/Volume, ResolveHost (HOST_ITEM/VEHICLE/PLAYER)
+  - MR_ClientState.c — Settings, Library, ApplyManifest
+  - MR_LibraryIndex.c — singleton библиотеки
+  - MR_RadioMenu.c — UI меню (F7), вкладки MUSIC/ALL/TAPES, слайдеры громкости/радиуса
+  - MR_GameHooks.c — modded MissionGameplay (F7/F8, ToggleRadioMenu)
+- `gui/layouts/radio_ui.layout`, `radio_row.layout` — UI
+- `inputs.xml` — MRNextTrack (kRight), MRPreviousTrack (kLeft), MRTogglePlayer (kB)
+- `stringtable.csv` — локализация (EN, RU, DE, CZ, PL, ES, FR)
+
+### @MusicRadioServer (только сервер, клиентам не нужен)
+- `config.cpp` — CfgPatches, CfgMods (world/mission modules)
+- `Scripts/4_World/MusicRadio/MR_ServerEngine.c` (1059 строк) — authority: Init, HandleRequest, StartPlay, StartPlayAlbum, ValidateHost, DispatchPlay, ChangeVolume, NextTrack, StopSession, Tick, SyncActiveSessions
+- `Scripts/4_World/MusicRadio/MR_ServerHooks.c` — modded CarScript/PersonalRadio/PlayerBase (EEKilled, EEDelete, OnRPC)
+- `Scripts/5_Mission/MusicRadio/MR_ServerMission.c` — modded MissionServer (OnInit, DelayedJoinSync)
+
+### @MusicRadioDB (контент, музыка)
+- `config.cpp` (171 строка, генерируется) — CfgSoundShaders + CfgSoundSets (MR_MUSICRADIODB_DEMO_TRACK_01/02), классы MR_Cassette_Rock01, MR_MiniDisc_Rock01 (CfgCassette.isPlaylist=1, soundSets[])
+- `Music/index.json` — 2 трека (demo_track_01, demo_track_02), albumId rock01
+- `Music/carriers.json` — rock01 -> MR_Cassette_Rock01 / MR_MiniDisc_Rock01
+- `Music/DatabaseConfig.json`, `Music/Rock/demo_playlist.json`, `CREDITS.txt`
+- `Scripts/4_World/MR_DB_Placeholder.c` — MR_DB_Info
+
+### server_files
+- `profiles/MusicRadio/AudioConfig.json` — general (defaultVolume 6, defaultRadius 40), features (vehicleRadio, handheldRadio, requireRadioItemInCargo, localTracks, broadcastToOthers, radioTransmission, autoplayNext, radioNeedsCarrier), limits (cooldownSeconds 3, logRequests)
+- `mpmissions/types_musicradio.xml` — спавн MR_MemoryCard_01, MR_CassettePlayer, MR_CassettePlayer_Black, MR_MiniDiscPlayer
+- `mpmissions/cfgspawnabletypes.xml` — аттачменты (BatteryD, MR_MemoryCard_01, MR_Cassette_Rock01 / MR_MiniDisc_Rock01)
+
+### Models
+- `config_proxy_snippet.cpp` — прокси для торпеды (MR_DashSlot selection, ProxyMR_MemoryCard/DashPlayer/DashDeck)
+- `src/*.p3d.txt` — планы создания .p3d в Object Builder (07_MODELS.md): mr_cassette (100×63.8×12мм), mr_minidisc (72×68×4мм), mr_memorycard (32×24×2.1мм), mr_mdplayer (118×72×17мм), mr_cassettedeck (140×110×35мм)
+
+### tools/ (16 python-скриптов)
+- generate_db_config.py, stage_pbo.py, check_project.py, check_bat.py, check_fresh.py, make_single_md.py, import_music.py, make_textures.py, autobuild.py, check_db_config.py, check_pbo.py, check_log.py, doctors.py, update_tools.py, check_mdmp.py, build_carrier_cfgset.py
+
+---
+
+## Как проверить (13_CHECK_BUILD.md, 05_PBO_BUILD.md)
+
+```bash
+python tools/check_project.py          # баланс скобок, слои, дубли, modded vs class
+python tools/check_db_config.py        # дубли CfgSoundSets/Shaders
+python tools/generate_db_config.py     # пересобрать базу из index.json
+python tools/stage_pbo.py --clean      # staging в release/staging (как для AddonBuilder)
+python tools/check_bat.py              # CRLF в .bat
+python tools/make_single_md.py --check # целостность 18_FULL_SOURCE.md
 ```
 
-## 2. Реализация патча машин и раций (Версия 1.30+)
-Согласно **13_CHECK_BUILD.md** (ревизия 20261174) и **01_INSTALL.md**:
-
-### Патч машин (`CarScript_modded.c` в `@MusicRadioCore/Scripts/4_World/`)
-*   **Слот `MR_DashSlot`** (пример из `13_CHECK_BUILD.md`):
-    ```cpp
-    class CfgSlots {
-        class Slot_MR_DashSlot {
-            name = "MR_DashSlot";
-            selection = "MR_DashSlot";
-        };
-    };
-    ```
-*   **Модель машины** (пример из `07_MODELS.md`): селекшен `MR_DashSlot` на торпеде.
-*   **Логика** (пример из `13_CHECK_BUILD.md`): `MR_ItemHost.MR_CanPlay()`, `MR_BlockReason()`, `MR_MediaBay.IsReady()`.
-
-### Патч рации (`PersonalRadio_modded.c` в `@MusicRadioCore/Scripts/4_World/`)
-*   **Наследник `Transmitter_Base`** (пример из `13_CHECK_BUILD.md`):
-    ```cpp
-    class PersonalRadio : Transmitter_Base {
-        attachments[] += { "MR_MemoryCard", "MR_Cassette", "MR_MiniDisc" };
-        class GUIInventoryAttachmentsProps {
-            class MR_MusicMedia { ... attachmentSlots[] = { карта, кассета, диск }; };
-        };
-    };
-    ```
-*   **Слоты**: карта памяти, кассета, MD-диск (пример из `13_CHECK_BUILD.md` и `06_CARRIERS.md`).
-*   **Логика**: `MR_MediaBay.IsReady()`, `MR_InsertedCarrier()`, `MR_GetInsertedCassette()`, `MR_GetInsertedDisc()`, `MR_GetMemoryCard()`, `MR_HasBattery()`, `MR_IsReady()`, `MR_CurrentAlbum()`, `MR_MediaStatus()` (пример из `13_CHECK_BUILD.md`).
-
-### Музыка в машине (кассеты) и рации (MD/SD)
-*   **Кассеты** (`@MusicRadioDB/config.cpp`): классы `MR_Cassette_Rock01` и др. (пример из `07_MODELS.md` и `13_CHECK_BUILD.md`).
-*   **MD Диски / SD Карты** (`@MusicRadioDB/config.cpp`): классы `MR_MiniDisc`, `MR_MemoryCard` (пример из `07_MODELS.md` и `13_CHECK_BUILD.md`).
-*   **Контракт «трек → звук»** (пример из `02_ARCHITECTURE.md`): `LCT|1|MusicRadioDB|wasteland_01|6|48311` → `MR_MUSICRADIODB_WASTELAND_01_SoundSet`.
-
-## 3. Конфигурация сервера (Версия 1.30+)
-### serverDZ.cfg (фрагмент из 01_INSTALL.md)
-```cfg
-mod=@MusicRadioCore;@MusicRadioDB;@VPPAdminTools;...
-servermod=ServerMOD;ServerCARS
+На Windows с DayZ Tools:
+```bat
+REBUILD.bat      :: текстуры + база + staging + проверки
+BUILD_PBO.bat    :: AddonBuilder -> release\pbo\*.pbo (+ .bisign)
+DEPLOY.bat       :: разложить по @Модам и на сервер (server_path.txt)
+CHECK.bat        :: диагностика + логи
 ```
 
-### mpmissions/dayzOffline.chernarusplus/MusicRadio/AudioConfig.json (пример из 01_INSTALL.md)
-```json
-{
-  "features": {
-    "vehicleRadio": true,              // музыка в машинах
-    "requireRadioItemInCargo": true,   // нужна рация в грузе машины
-    "radioNeedsCarrier": true,         // рация играет только вставленную кассету
-    "localTracks": true,               // музыка из медиа-пака
-    "broadcastToOthers": true,         // остальные рядом слышат музыку
-    "autoplayNext": true               // после трека включается следующий
-  },
-  "limits": {
-    "maxVolume": 100,
-    "logRequests": true,
-    "maxDistance": 50
-  }
-}
-```
+Ожидаемые логи в игре:
+- Клиент: `[MusicRadio] Client mission ready`
+- Сервер: `[MusicRadio] Server engine ready (protocol 1)`, `Library loaded: 2 entries`
+- F7 в машине / с рацией в руках — меню, трек играет
 
-## 4. Инструкция по развертыванию (Версия 1.30+)
-1. **Подготовка ключей** (DayZ Tools → DSSignFile → `KRaTos.biprivatekey` + `KRaTos.bikey`) — согласно `05_PBO_BUILD.md`.
-2. **Сборка PBO** (`BUILD_PBO.bat` → `release/pbo/*.pbo` + `.bisign`) — согласно `05_PBO_BUILD.md` и `14_BAT_FILES.md`.
-3. **Развертывание** (`DEPLOY.bat` → сервер + `release/deploy`) — согласно `14_BAT_FILES.md`.
-4. **Запуск сервера** (версия 1.30+) — согласно `01_INSTALL.md`:
-   ```bash
-   ./DayZServer_x64.exe -config=serverDZ.cfg -port=2302 \
-     "-mod=@MusicRadioCore;@MusicRadioDB;@VPPAdminTools" \
-     "-servermod=ServerMOD;ServerCARS" \
-     -dologs -adminlog -netlog
-   ```
+---
 
-## 5. Файлы документации (01-17)
-- [01_INSTALL.md](01_INSTALL.md) — Установка MusicRadio
-- [02_ARCHITECTURE.md](02_ARCHITECTURE.md) — Архитектура
-- [03_MEDIA_PACK.md](03_MEDIA_PACK.md) — Медиа-пак
-- [04_STATUS.md](04_STATUS.md) — Статус проекта
-- [05_PBO_BUILD.md](05_PBO_BUILD.md) — Как упаковать в PBO
-- [06_CARRIERS.md](06_CARRIERS.md) — Носители
-- [07_MODELS.md](07_MODELS.md) — Модели
-- [08_NEXT_STEPS.md](08_NEXT_STEPS.md) — Следующие шаги
-- [09_TEXTURES.md](09_TEXTURES.md) — Текстуры
-- [10_LIMITS.md](10_LIMITS.md) — Лимиты
-- [11_TROUBLESHOOTING.md](11_TROUBLESHOOTING.md) — Решение проблем
-- [12_CHANGES_VOS.md](12_CHANGES_VOS.md) — Изменения
-- [13_CHECK_BUILD.md](13_CHECK_BUILD.md) — Проверка сборки
-- [14_BAT_FILES.md](14_BAT_FILES.md) — Батники
-- [15_TEST_IN_GAME.md](15_TEST_IN_GAME.md) — Тестирование в игре
-- [16_TODO.md](16_TODO.md) — Что сделать
-- [17_HOW_IT_WAS_BUILT.md](17_HOW_IT_WAS_BUILT.md) — Как было сделано
+## Патч машин и раций (Версия 1.30+)
+
+**Машины:** слот `MR_DashSlot` в `CfgSlots` (без переобъявления ванильных машин — иначе `Member already defined`). В слот кладут кассету/диск ИЛИ плеер. Проверка — `MR_MediaItems.AlbumInVehicle()` / `DockedInVehicle()`, хост — `MR_VehicleHost` в `MR_WorldHooks.c` (modded CarScript).
+
+**Рация:** `PersonalRadio : Transmitter_Base` в `config.cpp` (прямой парент!), `attachments[] += { "MR_MemoryCard", "MR_Cassette", "MR_MiniDisc" }`. Единый контракт — `MR_MediaBay` в `MR_Decks.c`: носитель -> карта памяти -> батарейка. Хост — `MR_ItemHost` в `MR_Hosts.c`.
+
+**Плееры:** `MR_CassettePlayer` (слоты MR_MemoryCard + MR_Cassette + BatteryD), `MR_MiniDiscPlayer` (MR_MemoryCard + MR_MiniDisc + BatteryD). Карта вставляется в кассету/диск (у носителя есть слот MR_MemoryCard).
+
+---
+
+## Что НЕ включено (осознанно, из 18_FULL_SOURCE.md)
+
+- `tools/` в оригинале — 35 файлов, здесь 16 базовых (остальные — selftest_*.py, check_archive.py и т.д.)
+- `.ogg` музыка, `.png/.paa` текстуры, `.p3d` модели — бинарники, создаются через ffmpeg / Object Builder / TexView
+- Ванильный `server_files/mpmissions/types.xml` (896 КБ) — в него только добавляются 4 записи из `types_musicradio.xml`
+
+---
+
+**Готовый мод для сервера DayZ (Версия 1.30+) — реальный код из 18_FULL_SOURCE.md (ревизия 20261175), 47 файлов, ~274 КБ кода.**

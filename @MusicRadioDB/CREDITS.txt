@@ -1,0 +1,21 @@
+MusicRadio - Database (media pack)
+==================================
+
+This pack contains no third party music yet: the two .ogg files are silent
+placeholders used to test the pipeline.
+
+When you add real music, list every track here with its source and licence:
+
+  <file>            <title> - <artist>
+  Source            : ...
+  Licence           : ...
+  Allowed in stream : yes / no
+
+Rules
+-----
+1. Only add audio you have the right to redistribute.
+2. Keep the json entry and this file in sync.
+3. Tracks you may not want public broadcast can be marked "explicit": true
+   and disabled server side with general.allowExplicit = false.
+
+See docs/04_MEDIA_PACK.md for the whole workflow.

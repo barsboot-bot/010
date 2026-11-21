@@ -1,0 +1,48 @@
+{
+  "provider": "MusicRadioDB",
+  "version": 1,
+  "generated_by": "tools/generate_db_config.py",
+  "tracks": [
+    {
+      "id": "demo_track_01",
+      "provider": "MusicRadioDB",
+      "kind": "music",
+      "title": "Demo Track One",
+      "artist": "Placeholder Artist",
+      "album": "Demo Rock A",
+      "albumId": "rock01",
+      "year": 2026,
+      "duration": 222,
+      "tags": [
+        "demo",
+        "rock"
+      ],
+      "file": "Music/Rock/demo_track_01.ogg",
+      "volume": 0.85,
+      "bitrate": 0,
+      "enabled": true,
+      "explicit": false,
+      "loop": false,
+      "soundset": ""
+    },
+    {
+      "id": "demo_track_02",
+      "provider": "MusicRadioDB",
+      "kind": "music",
+      "title": "Demo Track Two",
+      "artist": "Placeholder Artist",
+      "album": "Demo Rock A",
+      "albumId": "rock01",
+      "year": 2026,
+      "duration": 215,
+      "tags": "chill, night",
+      "file": "Music/Rock/demo_track_02.ogg",
+      "volume": 0.8,
+      "bitrate": 0,
+      "enabled": true,
+      "explicit": false,
+      "loop": false,
+      "soundset": ""
+    }
+  ]
+}

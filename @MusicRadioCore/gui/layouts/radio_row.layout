@@ -1,0 +1,62 @@
+// =============================================================================
+//  MusicRadio - radio_row.layout
+//  One line of the track list. Instantiated by MR_RadioMenu.CreateRow().
+//  Sized by the parent WrapSpacer (Size To Content H).
+// =============================================================================
+
+FrameWidgetClass MR_Row {
+ size 540 30
+ hexactsize 1
+ vexactsize 1
+ color 0.12 0.13 0.15 0.6
+
+ {
+  TextWidgetClass MR_RowIndex {
+   position 8 0
+   size 32 30
+   hexactsize 1
+   vexactsize 1
+   text "1"
+   font "gui/fonts/sdf_MetronBook16"
+   "text halign" left
+   "text valign" center
+   color 0.5 0.52 0.55 1
+  }
+
+  TextWidgetClass MR_RowTitle {
+   position 44 0
+   size 330 30
+   hexactsize 1
+   vexactsize 1
+   text "track"
+   font "gui/fonts/sdf_MetronBook16"
+   "text halign" left
+   "text valign" center
+   color 0.9 0.9 0.9 1
+  }
+
+  TextWidgetClass MR_RowArtist {
+   position 380 0
+   size 110 30
+   hexactsize 1
+   vexactsize 1
+   text ""
+   font "gui/fonts/sdf_MetronBook16"
+   "text halign" left
+   "text valign" center
+   color 0.65 0.66 0.7 1
+  }
+
+  TextWidgetClass MR_RowDuration {
+   position 494 0
+   size 40 30
+   hexactsize 1
+   vexactsize 1
+   text "--:--"
+   font "gui/fonts/sdf_MetronBook16"
+   "text halign" right
+   "text valign" center
+   color 0.6 0.62 0.66 1
+  }
+ }
+}

@@ -1,0 +1,272 @@
+// =============================================================================
+//  MusicRadio - radio_ui.layout
+//  Simple, hand editable layout. All sizes are pixels (hexactsize/vexactsize 1)
+//  inside a fixed 900x620 panel so the menu looks identical on any monitor.
+//
+//  Widget names are referenced from MR_RadioMenu.c - keep them in sync.
+// =============================================================================
+
+FrameWidgetClass MR_Root {
+ size 900 620
+ hexactsize 1
+ vexactsize 1
+ halign center_ref
+ valign center_ref
+ priority 900
+ color 0.05 0.05 0.06 1
+ "no focus" 1
+
+ {
+  // ------------------------------------------------------------- background
+  PanelWidgetClass MR_Background {
+   position 0 0
+   size 1 1
+   hexactsize 0
+   vexactsize 0
+   color 0.07 0.08 0.09 0.94
+  }
+
+  // ------------------------------------------------------------------ header
+  PanelWidgetClass MR_Header {
+   position 0 0
+   size 1 64
+   hexactsize 0
+   vexactsize 1
+   color 0.12 0.14 0.16 1
+   {
+    TextWidgetClass MR_Title {
+     position 20 0
+     size 420 64
+     hexactsize 1
+     vexactsize 1
+     text "RADIO / MUSIC"
+     font "gui/fonts/sdf_MetronBook24"
+     "text halign" left
+     "text valign" center
+     color 0.92 0.92 0.92 1
+    }
+
+    TextWidgetClass MR_NowPlaying {
+     position 440 0
+     size 400 64
+     hexactsize 1
+     vexactsize 1
+     text "not playing"
+     font "gui/fonts/sdf_MetronBook24"
+     "text halign" right
+     "text valign" center
+     color 0.55 0.75 0.95 1
+    }
+
+    ButtonWidgetClass MR_CloseButton {
+     position 850 12
+     size 40 40
+     hexactsize 1
+     vexactsize 1
+     text "X"
+     style "Default"
+    }
+   }
+  }
+
+  // ------------------------------------------------------------------- tabs
+  PanelWidgetClass MR_Tabs {
+   position 0 64
+   size 1 44
+   hexactsize 0
+   vexactsize 1
+   color 0.10 0.11 0.13 1
+   {
+    ButtonWidgetClass MR_TabMusic {
+     position 10 6
+     size 130 32
+     hexactsize 1
+     vexactsize 1
+     text "MUSIC"
+     style "Default"
+    }
+    ButtonWidgetClass MR_TabAll {
+     position 148 6
+     size 130 32
+     hexactsize 1
+     vexactsize 1
+     text "ALL TRACKS"
+     style "Default"
+    }
+    ButtonWidgetClass MR_TabTapes {
+     position 286 6
+     size 130 32
+     hexactsize 1
+     vexactsize 1
+     text "TAPES"
+     style "Default"
+    }
+
+    EditBoxWidgetClass MR_SearchBox {
+     position 440 8
+     size 440 30
+     hexactsize 1
+     vexactsize 1
+     text ""
+     color 0.2 0.22 0.24 1
+    }
+   }
+  }
+
+  // ------------------------------------------------------------ track list
+  PanelWidgetClass MR_ListPanel {
+   position 16 118
+   size 560 420
+   hexactsize 1
+   vexactsize 1
+   color 0.09 0.10 0.11 1
+   {
+    ScrollWidgetClass MR_TrackScroll {
+     position 0 0
+     size 1 1
+     hexactsize 0
+     vexactsize 0
+     "Scrollbar V" 1
+     {
+      WrapSpacerWidgetClass MR_TrackList {
+       position 4 4
+       size 1 1
+       hexactsize 0
+       vexactsize 0
+       Padding 2
+       Margin 2
+       "Size To Content H" 1
+      }
+     }
+    }
+   }
+  }
+
+  // ---------------------------------------------------------------- controls
+  PanelWidgetClass MR_Controls {
+   position 588 118
+   size 296 420
+   hexactsize 1
+   vexactsize 1
+   color 0.09 0.10 0.11 1
+   {
+    TextWidgetClass MR_TrackInfo {
+     position 12 12
+     size 272 90
+     hexactsize 1
+     vexactsize 1
+     text "nothing selected"
+     font "gui/fonts/sdf_MetronBook24"
+     "text halign" left
+     "text valign" top
+     wrap 1
+     color 0.85 0.85 0.85 1
+    }
+
+    TextWidgetClass MR_StatusLabel {
+     position 12 110
+     size 272 24
+     hexactsize 1
+     vexactsize 1
+     text ""
+     font "gui/fonts/sdf_MetronBook16"
+     "text halign" left
+     "text valign" center
+     color 0.95 0.75 0.4 1
+    }
+
+    TextWidgetClass MR_VolumeLabel {
+     position 12 150
+     size 272 20
+     hexactsize 1
+     vexactsize 1
+     text "VOLUME 60%"
+     font "gui/fonts/sdf_MetronBook16"
+     "text halign" left
+     "text valign" center
+     color 0.8 0.8 0.8 1
+    }
+
+    SliderWidgetClass MR_VolumeSlider {
+     position 12 172
+     size 272 24
+     hexactsize 1
+     vexactsize 1
+     "fill in" 1
+     "listen to input" 1
+    }
+
+    TextWidgetClass MR_RadiusLabel {
+     position 12 206
+     size 272 20
+     hexactsize 1
+     vexactsize 1
+     text "RANGE 40 m"
+     font "gui/fonts/sdf_MetronBook16"
+     "text halign" left
+     "text valign" center
+     color 0.8 0.8 0.8 1
+    }
+
+    SliderWidgetClass MR_RadiusSlider {
+     position 12 228
+     size 272 24
+     hexactsize 1
+     vexactsize 1
+     "fill in" 1
+     "listen to input" 1
+    }
+
+    ButtonWidgetClass MR_PlayButton {
+     position 12 272
+     size 272 38
+     hexactsize 1
+     vexactsize 1
+     text "PLAY"
+     style "Default"
+    }
+
+    ButtonWidgetClass MR_StopButton {
+     position 12 316
+     size 132 34
+     hexactsize 1
+     vexactsize 1
+     text "STOP"
+     style "Default"
+    }
+
+    ButtonWidgetClass MR_NextButton {
+     position 152 316
+     size 132 34
+     hexactsize 1
+     vexactsize 1
+     text "NEXT"
+     style "Default"
+    }
+
+    CheckBoxWidgetClass MR_BroadcastCheck {
+     position 12 360
+     size 272 28
+     hexactsize 1
+     vexactsize 1
+     text "BROADCAST TO OTHERS"
+     color 0.8 0.8 0.8 1
+    }
+   }
+  }
+
+  // ------------------------------------------------------------------ footer
+  TextWidgetClass MR_Footer {
+   position 16 550
+   size 868 50
+   hexactsize 1
+   vexactsize 1
+   text ""
+   font "gui/fonts/sdf_MetronBook16"
+   "text halign" left
+   "text valign" top
+   wrap 1
+   color 0.6 0.62 0.65 1
+  }
+ }
+}

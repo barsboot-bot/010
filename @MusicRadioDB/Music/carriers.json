@@ -1,0 +1,18 @@
+{
+  "provider": "MusicRadioDB",
+  "note": "one carrier = one album; classes must exist in @MusicRadioCore/config.cpp",
+  "carriers": [
+    {
+      "albumId": "rock01",
+      "album": "Demo Rock A",
+      "artist": "Placeholder Artist",
+      "tracks": [
+        "demo_track_01",
+        "demo_track_02"
+      ],
+      "totalDuration": 437,
+      "cassette": "MR_Cassette_Rock01",
+      "minidisc": "MR_MiniDisc_Rock01"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+release/
+*.pbo
+*.bisign
+*.bikey
+*.biprivatekey
+__pycache__/
+*.pyc
+Thumbs.db
+*~
+MusicRadio_ARCHIVE.zip
+TOOLS_STALE.flag
+server_path.txt
