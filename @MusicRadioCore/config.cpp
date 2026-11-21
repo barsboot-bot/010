@@ -1,12 +1,12 @@
 // Конфиг мода @MusicRadioCore (Версия 1.30+)
-// Согласно 17_HOW_IT_WAS_BUILT.md п. 2.1-2.2 и 13_CHECK_BUILD.md (ревизия 20261174)
+// Полная версия согласно 17_HOW_IT_WAS_BUILT.md п. 2.1-2.2 и 13_CHECK_BUILD.md (ревизия 20261174)
 
 class CfgPatches {
     class MusicRadioCore {
         units[] = {};
         weapons[] = {};
         requiredVersion = 0.1;
-        requiredAddons[] = { "DZ_Data", "DZ_Scripts" };
+        requiredAddons[] = { "DZ_Data", "DZ_Scripts" }; // Согласно 17_HOW_IT_WAS_BUILT.md п. 2.1
     };
 };
 
@@ -15,7 +15,7 @@ class CfgMods {
         dir = "MusicRadioCore";
         name = "MusicRadio - Core";
         type = "mod";
-        dependencies[] = { "Game", "World", "Mission" };
+        dependencies[] = { "Game", "World", "Mission" }; // Согласно 17_HOW_IT_WAS_BUILT.md п. 2.2
         class defs {
             class gameScriptModule  { value=""; files[] = { "MusicRadioCore/Scripts/3_Game" }; };
             class worldScriptModule { value=""; files[] = { "MusicRadioCore/Scripts/4_World" }; };
@@ -24,29 +24,35 @@ class CfgMods {
     };
 };
 
-// Патч слотов (пример из 13_CHECK_BUILD.md ревизия 20261174)
+// Патч слотов (версия 1.30+) - согласно 13_CHECK_BUILD.md (ревизия 20261174)
 class CfgSlots {
     class Slot_MR_DashSlot {
         name = "MR_DashSlot";
-        selection = "MR_DashSlot";
+        selection = "MR_DashSlot"; // Согласно 07_MODELS.md (селекшен на модели)
     };
 };
 
-// Классы предметов (пример из 07_MODELS.md и 13_CHECK_BUILD.md)
+// Классы предметов (согласно 07_MODELS.md и 13_CHECK_BUILD.md)
 class MR_Cassette_Rock01 : MR_CassetteCase_Base {
     scope = 2;
     displayName = "Cassette - Demo Rock A";
-    model = "MusicRadioCore/data/mr_cassette.p3d";
+    model = "MusicRadioCore/data/mr_cassette.p3d"; // Согласно 07_MODELS.md п. 5
+    soundShaders[] = { "MR_MUSICRADIODB_WASTELAND_01_SoundShader" };
+    soundSets[] = { "MR_MUSICRADIODB_WASTELAND_01_SoundSet" };
 };
 
 class MR_MiniDisc : ItemBase {
     scope = 2;
     displayName = "MiniDisc";
-    model = "MusicRadioCore/data/mr_minidisc.p3d";
+    model = "MusicRadioCore/data/mr_minidisc.p3d"; // Согласно 07_MODELS.md п. 5
+    soundShaders[] = { "MR_MUSICRADIODB_WASTELAND_01_SoundShader" };
+    soundSets[] = { "MR_MUSICRADIODB_WASTELAND_01_SoundSet" };
 };
 
 class MR_MemoryCard : ItemBase {
     scope = 2;
     displayName = "Memory Card";
-    model = "MusicRadioCore/data/mr_memorycard.p3d";
+    model = "MusicRadioCore/data/mr_memorycard.p3d"; // Согласно 07_MODELS.md п. 5
+    soundShaders[] = { "MR_MUSICRADIODB_WASTELAND_01_SoundShader" };
+    soundSets[] = { "MR_MUSICRADIODB_WASTELAND_01_SoundSet" };
 };
