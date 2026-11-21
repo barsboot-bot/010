@@ -1,0 +1,19 @@
+# .p3d файл модели кассеты (заглушка-скелет по 07_MODELS.md)
+# В DayZ Tools (Object Builder) это бинарный формат ODOL.
+# Здесь — текстовая инструкция-заглушка, как создать .p3d из .obj (согласно 07_MODELS.md п. 1-4)
+
+# Источник: Models/src/mr_cassette.obj (100 × 63.8 × 12 мм)
+# Материалы: plastic, metal, label (согласно 07_MODELS.md п. 4)
+# LOD-схема: Resolution 0.000, View Geometry, Geometry, Memory (согласно 07_MODELS.md п. 3)
+# Memory LOD: ce_center, MR_MemCard, MR_Media (согласно 07_MODELS.md п. 3)
+
+# В Object Builder:
+# 1. Import Wavefront (.obj) -> mr_cassette.obj (масштаб 1.0)
+# 2. Bounding Center (согласно 07_MODELS.md п. 2)
+# 3. Замена MTL на .rvmat (согласно 07_MODELS.md п. 4)
+# 4. Save как .p3d (согласно 07_MODELS.md п. 1)
+
+# Файл .p3d (бинарный ODOL) не может быть создан текстом, 
+# поэтому здесь сохранен ПЛАН создания согласно 07_MODELS.md и 17_HOW_IT_WAS_BUILT.md.
+# Для проверки (13_CHECK_BUILD.md) используется config.cpp с ссылкой:
+# model = "MusicRadioCore/data/mr_cassette.p3d";

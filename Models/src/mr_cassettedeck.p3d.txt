@@ -1,0 +1,16 @@
+// .p3d файл модели кассетного плеера/деки (заглушка-скелет по 07_MODELS.md)
+// Размеры: 140 × 110 × 35 мм (согласно 07_MODELS.md п. 1)
+// Материалы: plastic, metal, label, screen, button (согласно 07_MODELS.md п. 4)
+// LOD-схема: Resolution 0.000, View Geometry, Geometry, Memory (согласно 07_MODELS.md п. 3)
+// Memory LOD: ce_center, MR_MemCard, MR_Media, MR_Button_* (согласно 07_MODELS.md п. 3)
+
+# В Object Builder:
+# 1. Import Wavefront (.obj) -> mr_cassettedeck.obj (масштаб 1.0)
+# 2. Bounding Center (согласно 07_MODELS.md п. 2)
+# 3. Замена MTL на .rvmat (согласно 07_MODELS.md п. 4)
+# 4. Save как .p3d (согласно 07_MODELS.md п. 1)
+
+# Файл .p3d (бинарный ODOL) не может быть создан текстом, 
+# поэтому здесь сохранен ПЛАН создания согласно 07_MODELS.md и 17_HOW_IT_WAS_BUILT.md.
+# Для проверки (13_CHECK_BUILD.md) используется config.cpp с ссылкой:
+# model = "MusicRadioCore/data/mr_cassettedeck.p3d";
