@@ -1,0 +1,15 @@
+{
+  "features": {
+    "vehicleRadio": true,              // музыка в машинах (версия 1.30+)
+    "requireRadioItemInCargo": true,   // нужна рация в грузе машины
+    "radioNeedsCarrier": true,         // рация играет только вставленную кассету
+    "localTracks": true,               // музыка из медиа-пака
+    "broadcastToOthers": true,         // остальные рядом слышат музыку
+    "autoplayNext": true               // после трека включается следующий
+  },
+  "limits": {
+    "maxVolume": 100,
+    "logRequests": true,
+    "maxDistance": 50
+  }
+}
